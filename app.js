@@ -4,6 +4,9 @@ const app = express();
 require('dotenv').config();
 const PORT = process.env.PORT || 3000;
 
+const authRoutes = require('./routes/authRoutes');
+const studentRoutes = require('./routes/studentRoutes');
+
 //connect to mongoose
 mongoose.connect(process.env.MONGO_URI)
 .then(() => {console.log('Connected to MongoDB Database') })
@@ -21,6 +24,10 @@ app.use( (err, req,res, next) => {
     res.status(500).send('Internal Server Error');
     next();
 });
+
+
+app.use('/', authRoutes);
+app.use('/', studentRoutes);
 
 //start server
 app.listen(PORT, () => {
