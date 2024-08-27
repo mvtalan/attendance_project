@@ -5,13 +5,13 @@ require('dotenv').config();
 
 
 exports.login = async (req, res) => {
-
+    
     const {email, password } = req.body;
-
+    
     try {
 
         const user = await AttendanceManager.findOne({ email });
-
+        // console.log(user);
         if(!user) {
             return res.status(401).send('Invalid username or password.');
         }
@@ -24,12 +24,12 @@ exports.login = async (req, res) => {
         }
 
         //generate the jwt
-        const sign = jwt.sign({ id : user._id.toString() }, process.env.secret_key, {expiresIn: '5m'});
+        const token = jwt.sign({ id : user._id.toString() }, 'secret_key', {expiresIn: '5m'});
 
         //create a cookie and place JWT/token inside it
         res.cookie('jwt', token, {maxAge: 5 * 60 * 1000, http: true});
 
-        res.redirect('/attendance');
+        res.redirect('/home');
 
 
     } catch (error) {

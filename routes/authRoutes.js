@@ -8,6 +8,6 @@ router.get('/register', (req,res) => {res.render('register');})
 // router.get('/attendance', (req,res) => {res.render('attendance');})
 
 router.post('/register', authController.register);
-
+router.post('/login', authController.login);
 
 module.exports = router;
