@@ -1,6 +1,7 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const app = express();
+const bodyParser = require('body-parser');
 require('dotenv').config();
 const PORT = process.env.PORT || 3000;
 
@@ -25,9 +26,11 @@ app.use( (err, req,res, next) => {
     next();
 });
 
-
+app.use(express.json());
+app.use(bodyParser.urlencoded({extended: true}));
 app.use('/', authRoutes);
 app.use('/', studentRoutes);
+
 
 //start server
 app.listen(PORT, () => {
